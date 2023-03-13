@@ -63,6 +63,13 @@ class Renderer {
                 this.drawVertex(this.curve[i], [0,0,255,255], framebuffer);
             }
         }
+        this.curve = [];
+        this.drawBezierCurve({x:100, y:400},{x:200, y:800},{x:300, y:0},{x:400, y:400}, this.num_curve_sections, [255, 0, 0, 255], framebuffer);
+        if(this.show_points){
+            for (let i = 0; i<this.curve.length; i++){
+                this.drawVertex(this.curve[i], [0,0,255,255], framebuffer);
+            }
+        }
     }
 
     // framebuffer:  canvas ctx image data
@@ -73,6 +80,13 @@ class Renderer {
         //   - variable `this.show_points` should be used to determine whether or not to render vertices
         this.circlepoints = []
         this.drawCircle({x:400, y:300}, 100, this.num_curve_sections,  [255, 0, 0, 255], framebuffer);
+        if(this.show_points){
+            for (let i = 0; i<this.circlepoints.length; i++){
+                this.drawVertex(this.circlepoints[i], [0,0,255,255], framebuffer);
+            }
+        }
+        this.circlepoints = []
+        this.drawCircle({x:600, y:100}, 100, this.num_curve_sections,  [255, 0, 0, 255], framebuffer);
         if(this.show_points){
             for (let i = 0; i<this.circlepoints.length; i++){
                 this.drawVertex(this.circlepoints[i], [0,0,255,255], framebuffer);
@@ -138,21 +152,21 @@ class Renderer {
             this.drawVertex(line1, [0,0,255,255], framebuffer);
         }
 
-        let vertex_list =[{x: 700, y: 250},{x: 725, y: 250},{x: 725, y: 350},{x: 700, y: 350}];
+        let vertex_list =[{x: 650, y: 250},{x: 675, y: 250},{x: 675, y: 350},{x: 650, y: 350}];
         this.drawConvexPolygon(vertex_list, [255, 0, 0, 255],framebuffer);
         if(this.show_points){
             for (let i = 0; i<vertex_list.length; i++){
                 this.drawVertex(vertex_list[i], [0,0,255,255], framebuffer);
             }
         }
-        let vertex_list1 =[{x: 800, y: 250},{x: 775, y: 250},{x: 775, y: 350},{x: 800, y: 350}];
+        let vertex_list1 =[{x: 750, y: 250},{x: 725, y: 250},{x: 725, y: 350},{x: 750, y: 350}];
         this.drawConvexPolygon(vertex_list1, [255, 0, 0, 255],framebuffer);
         if(this.show_points){
             for (let i = 0; i<vertex_list1.length; i++){
                 this.drawVertex(vertex_list1[i], [0,0,255,255], framebuffer);
             }
         }
-        let vertex_list2 =[{x: 700, y: 290},{x: 800, y: 290},{x: 800, y: 310},{x: 700, y: 310}];
+        let vertex_list2 =[{x: 650, y: 290},{x: 750, y: 290},{x: 750, y: 310},{x: 650, y: 310}];
         this.drawConvexPolygon(vertex_list2, [255, 0, 0, 255],framebuffer);
         if(this.show_points){
             for (let i = 0; i<vertex_list2.length; i++){
@@ -178,7 +192,7 @@ class Renderer {
         for(let t = 1/num_edges; t<=1; t += 1/num_edges){
             let x = (1-t)**3*p0.x + 3*(1-t)**2*t*p1.x + 3*(1-t)*t**2*p2.x + t**3*p3.x;
             let y = (1-t)**3*p0.y + 3*(1-t)**2*t*p1.y + 3*(1-t)*t**2*p2.y + t**3*p3.y;
-            this.curve.push({x: x, y: y})
+            this.curve.push({x: parseInt(x), y: parseInt(y)})
             prevx = x;
             prevy = y;
             
@@ -200,7 +214,7 @@ class Renderer {
             let angle = 2 * Math.PI * i / num_edges;
             let cx = center.x + radius * Math.cos(angle);
             let cy = center.y + radius * Math.sin(angle);
-            this.circlepoints.push({x: cx, y: cy});
+            this.circlepoints.push({x: parseInt(cx), y: parseInt(cy)});
         }
         console.log(this.circlepoints);
         for (let i = 0; i<this.circlepoints.length-1; i++){
